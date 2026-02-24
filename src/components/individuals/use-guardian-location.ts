@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+export function useGuardianLocation() {
   const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
 
   useEffect(() => {
@@ -18,3 +19,4 @@ import { useEffect, useState } from "react";
   }, []);
 
   return location;
+}
