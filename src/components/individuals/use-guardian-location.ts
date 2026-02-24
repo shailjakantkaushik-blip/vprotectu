@@ -18,4 +18,3 @@ import { useEffect, useState } from "react";
   }, []);
 
   return location;
-}
