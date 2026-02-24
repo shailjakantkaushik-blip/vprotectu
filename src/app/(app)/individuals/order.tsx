@@ -76,19 +76,19 @@ export default function OrderPage({ individualId }: { individualId: string }) {
     } else {
       setError(res.message || "Order failed. Try again.");
     }
-    // Demo: Simulate payment completion
-    async function handlePaymentComplete() {
-      if (!orderId) return;
-      const res = await fetch('/api/update-order-status', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId, newStatus: 'payment_completed_and_ordered' }),
-      }).then(r => r.json());
-      if (res.ok) {
-        alert('Payment completed and order status updated!');
-      } else {
-        alert('Failed to update order status: ' + (res.message || 'Unknown error'));
-      }
+  }
+
+  async function handlePaymentComplete() {
+    if (!orderId) return;
+    const res = await fetch('/api/update-order-status', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderId, newStatus: 'payment_completed_and_ordered' }),
+    }).then(r => r.json());
+    if (res.ok) {
+      alert('Payment completed and order status updated!');
+    } else {
+      alert('Failed to update order status: ' + (res.message || 'Unknown error'));
     }
   }
 
