@@ -24,17 +24,21 @@ export function Button({ className, asChild, variant = "default", size = "defaul
       : "px-4 py-2 text-sm";
   if (asChild) {
     const child = React.Children.only(props.children);
-    return React.cloneElement(child as React.ReactElement, {
-      className: cn(
-        "inline-flex items-center justify-center rounded-xl font-medium transition focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:opacity-50",
-        variantClass,
-        sizeClass,
-        className,
-        (child as React.ReactElement).props.className
-      ),
-      ...props,
-      children: (child as React.ReactElement).props.children,
-    });
+    if (React.isValidElement(child)) {
+      return React.cloneElement(child, {
+        className: cn(
+          "inline-flex items-center justify-center rounded-xl font-medium transition focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:opacity-50",
+          variantClass,
+          sizeClass,
+          className,
+          child.props.className
+        ),
+        ...props,
+        children: child.props.children,
+      });
+    }
+    // fallback: return child as-is if not valid element
+    return child;
   }
   return (
     <button
