@@ -1,17 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabase/server";
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
+  let id = resolvedParams?.id;
   try {
     const body = await req.json();
     // Try to extract id from params, fallback to URL if needed
-    let id = params?.id;
     if (!id) {
       // Try to extract from URL
       const urlParts = req.nextUrl.pathname.split("/");
       id = urlParts[urlParts.length - 1];
     }
-    console.log("[PUT /api/products/:id] params:", params);
+    console.log("[PUT /api/products/:id] params:", resolvedParams);
     console.log("[PUT /api/products/:id] extracted id:", id);
     console.log("[PUT /api/products/:id] body:", body);
 
