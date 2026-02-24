@@ -27,7 +27,13 @@ export function AdminBroadcastMessage() {
       setConfirmation(data?.message || "Message sent to all guardians");
       setMessage("");
     } catch (e) {
-      setConfirmation(e?.message || "Could not send message");
+      let errorMsg = "Could not send message";
+      if (typeof e === "object" && e !== null && "message" in e) {
+        errorMsg = (e as any).message || errorMsg;
+      } else if (typeof e === "string") {
+        errorMsg = e;
+      }
+      setConfirmation(errorMsg);
     } finally {
       setLoading(false);
     }
