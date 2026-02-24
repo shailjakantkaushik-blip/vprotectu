@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
-export function useGuardianLocation() {
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
 
   useEffect(() => {
     if (!navigator.geolocation) return;
