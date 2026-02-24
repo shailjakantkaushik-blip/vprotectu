@@ -6,6 +6,7 @@ type BadgeProps = React.HTMLAttributes<HTMLSpanElement> & {
   variant?: "default" | "secondary" | "outline";
 };
 
+export function Badge({ className, variant = "default", ...props }: BadgeProps) {
   let variantClass = "bg-slate-100 text-slate-700";
   if (variant === "secondary") {
     variantClass = "bg-slate-200 text-slate-800";
