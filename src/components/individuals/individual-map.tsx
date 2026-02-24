@@ -4,13 +4,19 @@ import { supabaseBrowser } from "@/lib/supabase/client";
 
 const Map = dynamic(() => import("react-map-gl"), { ssr: false });
 
+interface ScanLocation {
+  latitude: number;
+  longitude: number;
+  scanned_at: string;
+}
+
 interface IndividualMapProps {
   individualId: string;
   guardianLocation: { latitude: number; longitude: number };
 }
 
 export default function IndividualMap({ individualId, guardianLocation }: IndividualMapProps) {
-  const [scanLocation, setScanLocation] = useState(null);
+  const [scanLocation, setScanLocation] = useState<ScanLocation | null>(null);
 
   useEffect(() => {
     async function fetchLatestScan() {
@@ -22,7 +28,11 @@ export default function IndividualMap({ individualId, guardianLocation }: Indivi
         .order("scanned_at", { ascending: false })
         .limit(1)
         .single();
-      if (data) setScanLocation(data);
+      if (data) setScanLocation({
+        latitude: Number(data.latitude),
+        longitude: Number(data.longitude),
+        scanned_at: String(data.scanned_at),
+      });
     }
     fetchLatestScan();
   }, [individualId]);
